@@ -45,11 +45,7 @@ int main(int argc, char** argv)
 		std::vector<GLushort> elements;
 
 		loader.load("Assets/susane.obj", vertices, normals, elements);
-		if (!loader.load("Assets/susane.obj", vertices, normals, elements)) {
-			std::cout << "Failed to load model" << std::endl;
-			SDL_Quit();
-			return -1;
-		}
+		
 
 		std::cout << "Vertices size: " << vertices.size() << std::endl;
 		std::cout << "Normals size: " << normals.size() << std::endl;

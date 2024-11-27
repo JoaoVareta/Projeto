@@ -32,6 +32,8 @@ bool ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<g
 			istringstream s(line.substr(2));
 			glm::vec4 v; s >> v.x; s >> v.y; s >> v.z; v.w = 1.0f;
 			vertices.push_back(v);
+			//this shows all of the vertices that were found
+			cout << "v " << v.x << " " << v.y << " " << v.z << endl;
 		}
 		//gets values of faces
 		else if (line.substr(0, 2) == "f ")
