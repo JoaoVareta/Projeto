@@ -14,7 +14,7 @@ using namespace std;
 
 ObjLoader::ObjLoader() = default;
 
-ObjLoader::~ObjLoader() = default;
+//ObjLoader::~ObjLoader() = default;
 
 bool ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<GLushort>& elements) {
 	ifstream in(filename, ios::in);
