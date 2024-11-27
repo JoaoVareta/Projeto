@@ -73,9 +73,9 @@ int main(int argc, char** argv)
 
 	stbi_set_flip_vertically_on_load(true);
 
-	GLuint texture;
+	/*GLuint texture;
 	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glBindTexture(GL_TEXTURE_2D, texture);*/
 
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -85,7 +85,7 @@ int main(int argc, char** argv)
 
 	// load and generate the texture
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+	/*unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -95,12 +95,12 @@ int main(int argc, char** argv)
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
-	stbi_image_free(data);
+	stbi_image_free(data);*/
 
 
-	GLuint texture2;
-	glGenTextures(1, &texture2);
-	glBindTexture(GL_TEXTURE_2D, texture2);
+	//GLuint texture2;
+	//glGenTextures(1, &texture2);
+	//glBindTexture(GL_TEXTURE_2D, texture2);
 
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
-	data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
+	/*data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -119,7 +119,7 @@ int main(int argc, char** argv)
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
-	stbi_image_free(data);
+	stbi_image_free(data);*/
 
 	shaderProgram.setVertexAttribPointer("position", 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
 
@@ -184,6 +184,8 @@ int main(int argc, char** argv)
             }
         }
 
+		
+
         const Uint8* keyState = SDL_GetKeyboardState(nullptr);
         camera.processKeyboardInput(keyState, deltaTime);
 
@@ -199,6 +201,7 @@ int main(int argc, char** argv)
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, elements.size(), GL_UNSIGNED_SHORT, 0);
         glBindVertexArray(0);
+		//glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
         SDL_GL_SwapWindow(window);
     }
@@ -206,6 +209,8 @@ int main(int argc, char** argv)
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
     glDeleteVertexArrays(1, &vao);
+	glDisable(GL_CULL_FACE);
+
 
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
