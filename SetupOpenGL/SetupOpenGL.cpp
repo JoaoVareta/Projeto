@@ -51,10 +51,6 @@ int main(int argc, char** argv)
 		std::cout << "Normals size: " << normals.size() << std::endl;
 		std::cout << "Elements size: " << elements.size() << std::endl;
 
-	unsigned int indices[] = {  // note that we start from 0!
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
-	};
 
 	GLuint vao;
 	glGenVertexArrays(1, &vao);
@@ -127,9 +123,13 @@ int main(int argc, char** argv)
 
 	shaderProgram.setVertexAttribPointer("position", 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
 
-	//GLint colorAttrib = glGetAttribLocation(shaderProgram, "color");
-	//glEnableVertexAttribArray(colorAttrib);
-	//glVertexAttribPointer(colorAttrib, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+
+	GLuint normalVBO;
+	glGenBuffers(1, &normalVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, normalVBO);
+	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW);
+	shaderProgram.setVertexAttribPointer("normal", 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+
 
 	shaderProgram.setVertexAttribPointer("texCoord", 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
@@ -165,9 +165,6 @@ int main(int argc, char** argv)
 	glEnable(GL_DEPTH_TEST);
 
 
-
-
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (isRunning) // Render Loop
     {
         int now = SDL_GetTicks();
