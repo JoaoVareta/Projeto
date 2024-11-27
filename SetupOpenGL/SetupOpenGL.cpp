@@ -55,9 +55,6 @@ int main(int argc, char** argv)
 		std::cout << "Normals size: " << normals.size() << std::endl;
 		std::cout << "Elements size: " << elements.size() << std::endl;
 
-	
-
-
 	unsigned int indices[] = {  // note that we start from 0!
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
