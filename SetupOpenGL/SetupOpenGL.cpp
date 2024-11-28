@@ -42,10 +42,12 @@ int main(int argc, char** argv)
 
 		std::vector<glm::vec4> vertices;
 		std::vector<glm::vec3> normals;
+		std::vector<glm::vec2> textures;
 		std::vector<GLushort> elements;
 
-		loader.load("Assets/susane.obj", vertices, normals, elements);
-		
+		loader.load("Assets/susane.obj", vertices, normals, textures, elements);
+
+	
 
 		std::cout << "Vertices size: " << vertices.size() << std::endl;
 		std::cout << "Normals size: " << normals.size() << std::endl;
@@ -219,6 +221,15 @@ int main(int argc, char** argv)
             if (event.type == SDL_MOUSEWHEEL) {
                 camera.processMouseScroll(event.wheel.y);
             }
+
+			if (event.type == SDL_KEYDOWN) {
+				switch (event.key.keysym.sym) {
+				case SDLK_ESCAPE:
+					isRunning = false;
+					break;
+					// Handle other keys
+				}
+			}
         }
 
 		

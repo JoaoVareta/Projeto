@@ -9,7 +9,7 @@ class ObjLoader
 	public:
 	ObjLoader();
 	//~ObjLoader();
-	bool load(const char* filename, std::vector<glm::vec4>& vertices, std::vector<glm::vec3>& normals, std::vector<unsigned short>& elements);
+	void load(const char* filename, std::vector<glm::vec4>& vertices, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textures, std::vector<unsigned short>& elements);
 	
 };
 

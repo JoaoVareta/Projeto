@@ -16,7 +16,8 @@ ObjLoader::ObjLoader() = default;
 
 //ObjLoader::~ObjLoader() = default;
 
-bool ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<GLushort>& elements) {
+void ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<GLushort>& elements)
+{
 	ifstream in(filename, ios::in);
 	if (!in)
 	{
@@ -34,6 +35,14 @@ bool ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<g
 			vertices.push_back(v);
 			//this shows all of the vertices that were found
 			cout << "v " << v.x << " " << v.y << " " << v.z << endl;
+		}
+		else if (line.substr(0, 3) == "vt ")
+		{
+			string vValues = line.substr(2);
+			istringstream s(vValues);
+			glm::vec2 vt;
+			s >> vt.x; s >> vt.y;
+			textures.push_back(vt);
 		}
 		//gets values of faces
 		else if (line.substr(0, 2) == "f ")

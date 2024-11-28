@@ -22,8 +22,6 @@ void Camera::processKeyboardInput(const Uint8* keyState, float deltaTime) {
 	if (keyState[SDL_SCANCODE_S]) move(BACKWARD, velocity);
 	if (keyState[SDL_SCANCODE_A]) move(LEFT, velocity);
 	if (keyState[SDL_SCANCODE_D]) move(RIGHT, velocity);
-	if (keyState[SDL_SCANCODE_Q]) move(DOWN, velocity);
-	if (keyState[SDL_SCANCODE_E]) move(UP, velocity);
 }
 
 void Camera::processMouseInput(float xpos, float ypos) {
@@ -77,6 +75,6 @@ void Camera::move(CameraMovement direction, float velocity)
 	if (direction == BACKWARD) position -= front * velocity;
 	if (direction == LEFT) position -= right * velocity;
 	if (direction == RIGHT) position += right * velocity;
-	if (direction == UP) position += up * velocity;
-	if (direction == DOWN) position -= up * velocity;
+
+	position.y = 0;
 }
