@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 		std::cout << "Elements size: " << elements.size() << std::endl;
 
 
-		GLint attribute_v_coord;
+		/*GLint attribute_v_coord;
 		GLint vbo_mesh_vertices;
 		glEnableVertexAttribArray(attribute_v_coord);
 		// Describe our vertices array to OpenGL (it can't guess its format automatically)
@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 		GLint ibo_mesh_elements;
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_mesh_elements);
 		int size;  glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-		glDrawElements(GL_TRIANGLES, size / sizeof(GLushort), GL_UNSIGNED_SHORT, 0);
+		glDrawElements(GL_TRIANGLES, size / sizeof(GLushort), GL_UNSIGNED_SHORT, 0);*/
 
 
 
