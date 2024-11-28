@@ -52,6 +52,43 @@ int main(int argc, char** argv)
 		std::cout << "Elements size: " << elements.size() << std::endl;
 
 
+		GLint attribute_v_coord;
+		GLint vbo_mesh_vertices;
+		glEnableVertexAttribArray(attribute_v_coord);
+		// Describe our vertices array to OpenGL (it can't guess its format automatically)
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_mesh_vertices);
+		glVertexAttribPointer(
+			attribute_v_coord,  // attribute
+			4,                  // number of elements per vertex, here (x,y,z,w)
+			GL_FLOAT,           // the type of each element
+			GL_FALSE,           // take our values as-is
+			0,                  // no extra data between each position
+			0                   // offset of first element
+		);
+
+		GLint attribute_v_normal;
+		GLint vbo_mesh_normals;
+		glEnableVertexAttribArray(attribute_v_normal);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_mesh_normals);
+		glVertexAttribPointer(
+			attribute_v_normal, // attribute
+			3,                  // number of elements per vertex, here (x,y,z)
+			GL_FLOAT,           // the type of each element
+			GL_FALSE,           // take our values as-is
+			0,                  // no extra data between each position
+			0                   // offset of first element
+		);
+
+		GLint ibo_mesh_elements;
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_mesh_elements);
+		int size;  glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+		glDrawElements(GL_TRIANGLES, size / sizeof(GLushort), GL_UNSIGNED_SHORT, 0);
+
+
+
+
+
+
 	GLuint vao;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
