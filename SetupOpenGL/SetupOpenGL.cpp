@@ -68,7 +68,7 @@ int main(int argc, char** argv)
 
 		GLint attribute_v_normal;
 		GLint vbo_mesh_normals;
-		glEnableVertexAttribArray(attribute_v_normal);
+		glEnableVertexAttribArray(attribute_v_normal);+
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_mesh_normals);
 		glVertexAttribPointer(
 			attribute_v_normal, // attribute
