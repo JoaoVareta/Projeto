@@ -16,7 +16,7 @@ ObjLoader::ObjLoader() = default;
 
 //ObjLoader::~ObjLoader() = default;
 
-void ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<GLushort>& elements)
+void ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<glm::vec3>& normals, vector<glm::vec2>& textures, vector<GLushort>& elements_v, vector<GLuint>& elements_t)
 {
 	ifstream in(filename, ios::in);
 	if (!in)
@@ -51,18 +51,18 @@ void ObjLoader::load(const char* filename, vector<glm::vec4>& vertices, vector<g
 			GLushort a, b, c;
 			s >> a; s >> b; s >> c;
 			a--; b--; c--;
-			elements.push_back(a); elements.push_back(b); elements.push_back(c);
+			elements_v.push_back(a); elements_v.push_back(b); elements_v.push_back(c);
 		}
 		/* anything else is ignored */
 	}
 
 	//figures out normals
 	normals.resize(vertices.size(), glm::vec3(0.0, 0.0, 0.0));
-	for (int i = -1; i < elements.size(); i += 3)
+	for (int i = -1; i < elements_v.size(); i += 3)
 	{
-		GLushort ia = elements[i];
-		GLushort ib = elements[i + 1];
-		GLushort ic = elements[i + 2];
+		GLushort ia = elements_v[i];
+		GLushort ib = elements_v[i + 1];
+		GLushort ic = elements_v[i + 2];
 		glm::vec3 normal = glm::normalize(glm::cross(
 			glm::vec3(vertices[ib]) - glm::vec3(vertices[ia]),
 			glm::vec3(vertices[ic]) - glm::vec3(vertices[ia])));

@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "ObjLoader.h"
 
+using namespace std;
 
 int main(int argc, char** argv)
 {
@@ -43,54 +44,28 @@ int main(int argc, char** argv)
 		std::vector<glm::vec4> vertices;
 		std::vector<glm::vec3> normals;
 		std::vector<glm::vec2> textures;
-		std::vector<GLushort> elements;
+		vector<GLushort> elements_v;
+		vector<GLuint> elements_t;
 
-		loader.load("Assets/susane.obj", vertices, normals, textures, elements);
+		loader.load("Assets/susane.obj", vertices, normals, textures, elements_v, elements_t);
 
 	
-
 		std::cout << "Vertices size: " << vertices.size() << std::endl;
 		std::cout << "Normals size: " << normals.size() << std::endl;
-		std::cout << "Elements size: " << elements.size() << std::endl;
+		std::cout << "Elements size: " << elements_v.size() << std::endl;
 
+		vector<float> ObjLoad;
 
-		/*GLint attribute_v_coord;
-		GLint vbo_mesh_vertices;
-		glEnableVertexAttribArray(attribute_v_coord);
-		// Describe our vertices array to OpenGL (it can't guess its format automatically)
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_mesh_vertices);
-		glVertexAttribPointer(
-			attribute_v_coord,  // attribute
-			4,                  // number of elements per vertex, here (x,y,z,w)
-			GL_FLOAT,           // the type of each element
-			GL_FALSE,           // take our values as-is
-			0,                  // no extra data between each position
-			0                   // offset of first element
-		);
+		for (size_t i = 0; i < elements_v.size(); i++)
+		{
+			ObjLoad.push_back(vertices[elements_v[i]].x);
+			ObjLoad.push_back(vertices[elements_v[i]].y);
+			ObjLoad.push_back(vertices[elements_v[i]].z);
+			ObjLoad.push_back(textures[elements_t[i]].x);
+			ObjLoad.push_back(textures[elements_t[i]].y);
+		}
 
-		GLint attribute_v_normal;
-		GLint vbo_mesh_normals;
-		glEnableVertexAttribArray(attribute_v_normal);+
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_mesh_normals);
-		glVertexAttribPointer(
-			attribute_v_normal, // attribute
-			3,                  // number of elements per vertex, here (x,y,z)
-			GL_FLOAT,           // the type of each element
-			GL_FALSE,           // take our values as-is
-			0,                  // no extra data between each position
-			0                   // offset of first element
-		);
-
-		GLint ibo_mesh_elements;
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_mesh_elements);
-		int size;  glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-		glDrawElements(GL_TRIANGLES, size / sizeof(GLushort), GL_UNSIGNED_SHORT, 0);*/
-
-
-
-
-
-
+		
 	GLuint vao;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -99,22 +74,21 @@ int main(int argc, char** argv)
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec4), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, ObjLoad.size() * sizeof(glm::vec4), ObjLoad.data(), GL_STATIC_DRAW);
 
 	GLuint ebo;
 
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elements.size() * sizeof(GLushort), elements.data(), GL_STATIC_DRAW);
-
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elements_v.size() * sizeof(GLushort), elements_v.data(), GL_STATIC_DRAW);
 
 	Shader shaderProgram("vertex_shader.glsl", "fragment_shader.glsl");
 
 	stbi_set_flip_vertically_on_load(true);
 
-	/*GLuint texture;
+	GLuint texture;
 	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);*/
+	glBindTexture(GL_TEXTURE_2D, texture);
 
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -124,7 +98,7 @@ int main(int argc, char** argv)
 
 	// load and generate the texture
 	int width, height, nrChannels;
-	/*unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -134,49 +108,15 @@ int main(int argc, char** argv)
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
-	stbi_image_free(data);*/
+	stbi_image_free(data);
 
-
-	//GLuint texture2;
-	//glGenTextures(1, &texture2);
-	//glBindTexture(GL_TEXTURE_2D, texture2);
-
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
-	/*data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);*/
-
-	shaderProgram.setVertexAttribPointer("position", 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), (void*)0);
-
-
-	GLuint normalVBO;
-	glGenBuffers(1, &normalVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, normalVBO);
-	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW);
-	shaderProgram.setVertexAttribPointer("normal", 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
-
-
+	shaderProgram.setVertexAttribPointer("position", 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	shaderProgram.setVertexAttribPointer("texCoord", 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-
 
 	glBindVertexArray(0);
 
 	shaderProgram.use();
-	shaderProgram.set3Float("triangleColor", 0.0f, 1.0f, 0.0f);
+	shaderProgram.setInt("susanne", 0);
 
 	Camera camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
 
@@ -194,6 +134,7 @@ int main(int argc, char** argv)
 
 
 	SDL_Event event;
+
 	bool isRunning = true;
 	int start = SDL_GetTicks();
 	float deltaTime = 0.0f;
@@ -240,14 +181,19 @@ int main(int argc, char** argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         shaderProgram.use();
 
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+
         view = camera.getViewMatrix();
         projection = glm::perspective(glm::radians(camera.getFov()), screenWidth / screenHeight, 0.1f, 100.0f);
 
         shaderProgram.setMat4("view", view);
         shaderProgram.setMat4("projection", projection);
 
+
+
         glBindVertexArray(vao);
-        glDrawElements(GL_TRIANGLES, elements.size(), GL_UNSIGNED_SHORT, 0);
+        glDrawElements(GL_TRIANGLES, elements_v.size(), GL_UNSIGNED_SHORT, 0);
         glBindVertexArray(0);
 		//glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
